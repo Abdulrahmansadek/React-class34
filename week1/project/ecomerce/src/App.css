@@ -33,6 +33,7 @@
   padding: 15px;
   background-color: rgba(189, 188, 188, 0.434);
   margin: 4px;
+  border: none;
 }
 .categories-container button:hover {
   background-color: grey;
