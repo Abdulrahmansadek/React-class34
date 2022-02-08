@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.card {
+  width: 400px;
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 400px;
+}
+
+.img-container img {
+  width: 100%;
+  height: 300px;
+}
+.title-container {
+  background-color: yellow;
+  text-align: center;
+  width: 400px;
+  height: 100px;
+  margin-top: 20px;
+}
+
+.categories-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 5px;
+}
+.categories-container button {
+  padding: 15px;
+  background-color: rgba(189, 188, 188, 0.434);
+  margin: 4px;
+}
+.categories-container button:hover {
+  background-color: grey;
+  cursor: pointer;
+}
