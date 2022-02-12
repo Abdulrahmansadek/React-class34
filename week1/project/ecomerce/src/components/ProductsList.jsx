@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import ProductsItem from "./ProductsItem";
-import Header from "./Header";
+import CategoriesList from "./CategoriesList";
 
-function ProductsList({ products, category }) {
+function ProductsList({ products, categoryData }) {
   const [categories, setCategories] = useState("");
+
   const filterCategoriesHandler = (category) => {
     setCategories(category);
   };
@@ -17,9 +18,9 @@ function ProductsList({ products, category }) {
   return (
     <>
       <div className="categories-container">
-        <Header
+        <CategoriesList
           onFilterCategories={filterCategoriesHandler}
-          category={category}
+          categoryItem={categoryData}
         />
       </div>
       <div className="container">

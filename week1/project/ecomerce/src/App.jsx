@@ -1,19 +1,16 @@
 import "./App.css";
 import products from "./fake-data/all-products";
 import ProductsList from "./components/ProductsList";
-import { useState } from "react";
 import categories from "./fake-data/all-categories";
+import Container from "react-bootstrap/Container";
 function App() {
-  const [product, setProducts] = useState(products);
-  const [category, setCategories] = useState(categories);
-
   return (
     <>
-      <div className="App">
+      <Container className="App">
         <h1>Products </h1>
-      </div>
+      </Container>
 
-      <ProductsList products={product} category={category} />
+      <ProductsList products={products} categoryData={categories} />
     </>
   );
 }
