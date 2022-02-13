@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "./Button";
-import Container from "react-bootstrap/Container";
 
 function CategoriesList({ onFilterCategories, categoryItem }) {
   const [selected, setSelected] = useState();

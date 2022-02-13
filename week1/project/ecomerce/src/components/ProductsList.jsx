@@ -4,16 +4,22 @@ import CategoriesList from "./CategoriesList";
 
 function ProductsList({ products, categoryData }) {
   const [categories, setCategories] = useState("");
-
+  const [matchedCategoriesArray, setMatchedCategoriesArray] =
+    useState(products);
   const filterCategoriesHandler = (category) => {
-    setCategories(category);
-  };
-  const filteredCategory = products.filter((catItem) => {
-    if (categories === "") {
-      return catItem;
+    if (categories === category) {
+      setMatchedCategoriesArray(products);
+
+      return;
     }
-    return catItem.category === categories;
-  });
+    const filtered = products.filter((catItem) => {
+      if (catItem.category === category) {
+        return catItem;
+      }
+    });
+    setCategories(category);
+    setMatchedCategoriesArray(filtered);
+  };
 
   return (
     <>
@@ -24,7 +30,7 @@ function ProductsList({ products, categoryData }) {
         />
       </div>
       <div className="container">
-        {filteredCategory.map((item) => {
+        {matchedCategoriesArray.map((item) => {
           return <ProductsItem key={item.id} items={item} />;
         })}
       </div>
