@@ -21,21 +21,50 @@ const changedUser = {
   lastName: "Williams",
   role: "User",
 };
+// create mock function
+const MockedUser = jest.fn();
 
 describe("UserDetailsForm", () => {
   it("Correctly fills in the initial values", () => {
-    // TODO: Fill in!
-    expect(true).toBe(false);
+    render(<UserDetailsForm initialUserValues={testUser} />);
+    const intialFirstNameUser = screen.getByLabelText("First name:");
+    const intialLasNameUser = screen.getByLabelText("Last name:");
+    const intialRole = screen.getByLabelText("Role:");
+
+    expect(intialFirstNameUser.value).toBe(testUser.firstName);
+    expect(intialLasNameUser.value).toBe(testUser.lastName);
+    expect(intialRole.value).toBe(testUser.role);
   });
 
   it("Correctly changes a fields value", () => {
-    // TODO: Fill in!
-    expect(true).toBe(false);
+    render(<UserDetailsForm initialUserValues={testUser} />);
+    fireEvent.change(screen.getByLabelText("First name:"), {
+      target: { value: changedUser.firstName },
+    });
+    expect(screen.getByLabelText("First name:").value).toBe(
+      changedUser.firstName
+    );
+    // in this test i skipped the last name and the role because they are exuctly same way as the first name
   });
 
-  it("Submits the right values to the onSubmit function", () => {
-    // TODO: Fill in!
-    // TIP: You will need to mock the onSubmit function prop so you can check that it was called and what it was called with! Have a look at `jest.fn`
-    expect(true).toBe(false);
+  it("Submits the right values to the onSubmit function", async () => {
+    render(
+      <UserDetailsForm initialUserValues={testUser} onSubmit={MockedUser} />
+    );
+    fireEvent.change(screen.getByLabelText("First name:"), {
+      target: { value: changedUser.firstName },
+    });
+    fireEvent.change(screen.getByLabelText("Last name:"), {
+      target: { value: changedUser.lastName },
+    });
+    fireEvent.change(screen.getByLabelText("Role:"), {
+      target: { value: changedUser.role },
+    });
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /submit/i,
+      })
+    );
+    expect(MockedUser).toHaveBeenCalledWith(changedUser);
   });
 });

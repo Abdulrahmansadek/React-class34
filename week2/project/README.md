@@ -1,24 +1,26 @@
-# Ecommerce Project II
+# Ecommerce Project I
 
 ## 1. Setup
 
-Make sure you created a new week2 branch from the `main` branch of your forked repo. Then copy over the `ecommerce` folder you made last week into the `week2/project` folder. That way any feedback you get for week1 can be changed in the week1 branch and you are free to refactor this week as you see fit. This does mean you may need to apply the same changes to multiple branches, but let's say that that is good for the learning process :).
+The first step to any project is to setup your development environment. Follow the steps:
+
+1. Inside this folder (`week1/project`), use `create-react-app` to create a React application. Give it the name `ecommerce`
+   > You are going to be copying and refactoring your code every week but will simultaneously be getting feedback for previous weeks. As such, at the beginning of every week you copy over the project files from the previous week into a new folder and a new branch. To help you identify if all is well, we suggest keeping it in the week folder that it is a part of.
+2. Copy and paste the folder `fake-data` inside the `src` folder of your new project
 
 ## 2. Requirements
 
-We are going to focus on linking up our app to the API this week. By the end of the assignment your application should work similar to this:
+This week you'll build the foundation of your application. It should eventually look like this:
 
-[![Week 2 Screenshot](../../assets/project/week2.png)](https://upbeat-meninsky-86c3c8.netlify.app/)
+[![Week 1 Wireframe](../../assets/project/week1.png)](https://awesome-carson-606d96.netlify.app/)
 
-There is a live version [here](https://upbeat-meninsky-86c3c8.netlify.app/)
+There is a live version [here](https://awesome-carson-606d96.netlify.app/)
 
-_Note: The API is a fully open API so can be a little slow to respond sometimes. Great for checking your loading UX!_
+We will be using the information in the `fake-data` folder as an example of what we get back from the API. The actual connection to the API will be done next week.
 
 What you need to have done at the end of the week:
 
-- The fake-data directory should not be a part of your project anymore
-- Your app will need to make 2 queries to the following endpoints:
-  - `https://fakestoreapi.com/products/categories` -> To get all the categories
-  - `https://fakestoreapi.com/products` or `https://fakestoreapi.com/products/category/<selectedCategory>` -> To get the products. The API needs to do the filtering, not the frontend. Usually the amount of products will be too large to do the filtering on the frontend.
-- Your app needs to show that it is loading when waiting on the request to come back. You can test this by mimicing a slow connection in your browsers' developer tools
-- Your app needs to show an error message if the request failed
+- A product list that displays all of the products in the `all-products` file. _Note: the site is responsive, so have a look at the breakpoints in the deployed example project._
+- A category list that displays all of the categories in the `all-categories` file at the top of the page
+- If the user clicks on a category only the products that have that category in their `category` property should be displayed on the screen.
+- There should only be 1 category active at a time and the user should see which category is selected.
