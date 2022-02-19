@@ -6,7 +6,6 @@ import IsLoading from "./IsLoading";
 function ProductsList() {
   const [products, setProducts] = useState([]);
   const [selectCategory, setSelectCategories] = useState("");
-  const [categories, setCategories] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [ErrorItem, setErrorItem] = useState(false);
@@ -16,23 +15,12 @@ function ProductsList() {
     if (selectCategory === category) {
       setSelectCategories([]);
       getProducts();
-
+      setLoading(true);
       return;
     } else {
       setSelectCategories(category);
     }
     setLoading(true);
-  };
-
-  const getCategories = async () => {
-    try {
-      const res = await fetch("https://fakestoreapi.com/products/categories");
-      const data = await res.json();
-      setCategories(data);
-    } catch (error) {
-      setErrorItem(true);
-      setCategoriesLoading(false);
-    }
   };
 
   const getProducts = async () => {
@@ -65,10 +53,6 @@ function ProductsList() {
   };
 
   useEffect(() => {
-    getCategories();
-    getProducts();
-  }, []);
-  useEffect(() => {
     getProductByCategories();
   }, [selectCategory]);
 
@@ -78,17 +62,21 @@ function ProductsList() {
         <CategoriesList
           onFilterCategories={filterCategoriesHandler}
           selectedCategory={selectCategory}
-          categories={categories}
+          getProducts={getProducts}
+          setErrorItem={setErrorItem}
+          setCategoriesLoading={setCategoriesLoading}
         />
       </div>
       <div className="container">
-        {loading === false ? (
-          products.map((item) => <ProductsItem key={item.id} items={item} />)
-        ) : (
+        {loading ? (
           <div>
             {ErrorItem && <Error />}
             {categoriesLoading && <IsLoading />}
           </div>
+        ) : ErrorItem ? (
+          <Error />
+        ) : (
+          products.map((item) => <ProductsItem key={item.id} items={item} />)
         )}
       </div>
     </>

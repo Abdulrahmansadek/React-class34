@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Button from "./Button";
 
 const CategoriesList = ({
   onFilterCategories,
-  categories,
+  getProducts,
   selectedCategory,
+  setCategoriesLoading,
+  setErrorItem,
 }) => {
+  const [categories, setCategories] = useState([]);
+
+  const getCategories = async () => {
+    try {
+      const res = await fetch("https://fakestoreapi.com/products/categories");
+      const data = await res.json();
+      setCategories(data);
+    } catch (error) {
+      setErrorItem(true);
+      setCategoriesLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+    getProducts();
+  }, []);
+
   return categories.map((item, idx) => (
     <div
       className="categories-container"
