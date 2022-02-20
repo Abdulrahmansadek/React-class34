@@ -41,10 +41,19 @@ describe("UserDetailsForm", () => {
     fireEvent.change(screen.getByLabelText("First name:"), {
       target: { value: changedUser.firstName },
     });
+    fireEvent.change(screen.getByLabelText("Last name:"), {
+      target: { value: changedUser.lastName },
+    });
+    fireEvent.change(screen.getByLabelText("Role:"), {
+      target: { value: changedUser.role },
+    });
     expect(screen.getByLabelText("First name:").value).toBe(
       changedUser.firstName
     );
-    // in this test i skipped the last name and the role because they are exuctly same way as the first name
+    expect(screen.getByLabelText("Last name:").value).toBe(
+      changedUser.lastName
+    );
+    expect(screen.getByLabelText("Role:").value).toBe(changedUser.role);
   });
 
   it("Submits the right values to the onSubmit function", async () => {

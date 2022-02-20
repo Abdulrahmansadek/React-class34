@@ -1,6 +1,6 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { setupServer } from "msw/node";
-import { rest } from "msw";
+import fetchMock from "jest-fetch-mock";
 
 import ChuckNorrisJoke from "./3-ChuckNorrisJoke";
 
@@ -15,11 +15,15 @@ import ChuckNorrisJoke from "./3-ChuckNorrisJoke";
  * You don't want your component to really connect to the API when unit testing so you will want to mock that.
  * To make this easier, a package called `jest-fetch-mock` can be useful, you will have to set that up yourself.
  * Have a look at: https://github.com/jefflau/jest-fetch-mock
+ *
+ *
  */
-const errorMessage =
-  "Something went wrong with grabbing your joke. Please try again later.";
+
+beforeEach(() => fetchMock.resetMocks());
+beforeAll(() => (console.error = jest.fn()));
+
 const joke = "Chuck Norris's log statements are always at the FATAL level.";
-const testSuccessfullResponse = JSON.stringify({
+const testSuccessfulResponse = JSON.stringify({
   type: "success",
   value: {
     id: 538,
@@ -27,41 +31,32 @@ const testSuccessfullResponse = JSON.stringify({
     categories: ["nerdy"],
   },
 });
-
-const server = setupServer(
-  rest.get("http://api.icndb.com/jokes/random", (req, res, ctx) => {
-    return res(ctx.json(testSuccessfullResponse));
-  })
-);
-// set the server when is bad status code
-server.use(
-  rest.get("http://api.icndb.com/jokes/random", (req, res, ctx) => {
-    return res(ctx.status(500));
-  })
-);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+const testUnhappyResponse = JSON.stringify({});
 
 describe("ChuckNorrisJoke", () => {
   it("should show the Loading text when the component is still loading", async () => {
+    fetch.mockResponse(testSuccessfulResponse);
     render(<ChuckNorrisJoke />);
-    const heading = screen.getByText("Loading...");
-    expect(heading).toBeInTheDocument();
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    await screen.findByText(joke);
   });
 
   it("should show the joke the fetch returns", async () => {
+    fetch.mockResponseOnce(testSuccessfulResponse);
     render(<ChuckNorrisJoke />);
-    await waitFor(() => {
-      expect(screen.getByText(joke)).toBeInTheDocument();
-    });
+    const jokeEle = await screen.findByText(joke);
+    expect(jokeEle).toBeInTheDocument();
   });
 
   it("should show an error message if the fetch fails", async () => {
+    fetch.mockResponseOnce(testUnhappyResponse);
     render(<ChuckNorrisJoke />);
-    await waitFor(() => {
-      expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    });
+    const errorEle = await screen.findByText(
+      /Something went wrong with grabbing your joke. Please try again later./i
+    );
+    expect(errorEle).toBeInTheDocument();
+    //EXTRA CHALLENGE: You will find that you will get a `console.error` log because the component calls it.
+    //     The test will pass but it will clog up your test runs which will become a problem.
+    //     Think of a way to not change the component but also not get an error message.
   });
 });
