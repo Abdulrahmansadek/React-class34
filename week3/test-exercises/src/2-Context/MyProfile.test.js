@@ -31,9 +31,23 @@ function TestComponent({ loggedInUser, isLoggedIn, login, logout }) {
  * - If the user is not logged in we should be showing a message to login
  */
 describe("MyProfile", () => {
-  it("Displays the name of the logged in user", () => {});
+  const user = { name: "John" };
+  it("Displays the name of the logged in user", () => {
+    render(<TestComponent isLoggedIn={true} loggedInUser={user.name} />);
+    expect(screen.getByText(/Welcome back/i)).toBeInTheDocument();
+  });
 
-  it("Allows the user to log out if the user is logged in", () => {});
+  it("Allows the user to log out if the user is logged in", () => {
+    render(<TestComponent isLoggedIn={true} loggedInUser={user.name} logout />);
+    expect(
+      screen.getByTestId(TEST_ID.MYPROFILE_LOGOUT_BUTTON)
+    ).toBeInTheDocument();
+  });
 
-  it("Shows a message to login if the user is not logged in", () => {});
+  it("Shows a message to login if the user is not logged in", () => {
+    render(<TestComponent isLoggedIn={false} loggedInUser={user.name} />);
+    expect(
+      screen.getByTestId(TEST_ID.MYPROFILE_LOGGED_OUT_MESSAGE)
+    ).toHaveTextContent("You are not logged in! Please login first.");
+  });
 });

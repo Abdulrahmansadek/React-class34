@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.card {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  position: relative;
+  margin: 10px;
+}
+.card:hover {
+  cursor: pointer;
+}
+.card img {
+  width: 200px;
+  height: 270px;
+}
+.card-body {
+  height: 200px;
+}
+.item-text {
+  margin: 4px;
+  width: 200px;
+  height: 100px;
+  margin-top: 20px;
+}
+.favorite-container {
+  position: relative;
+}
+.heart {
+  width: 30px;
+  position: absolute;
+  right: 8px;
+  top: -50px;
+}
+.heart-filled {
+  width: 30px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+.categories-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 5px;
+}
+.category-item {
+  border: 1px black solid;
+  padding: 7px;
+  margin: 3px;
+  border-radius: 10px;
+}
+.selected {
+  background-color: grey;
+  border: 1px black solid;
+  padding: 7px;
+  margin: 3px;
+  border-radius: 10px;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+.product-title {
+  border: 2px solid pink;
+}
+.product-image {
+  width: 200px;
+  height: 200px;
+  border: 2px solid blue;
+}
+.product-description {
+  border: 1px solid yellow;
+  width: 400px;
+  margin-top: 20px;
+}

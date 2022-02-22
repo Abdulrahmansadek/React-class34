@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-
+import { BrowserRouter } from "react-router-dom";
 import Routing from "./Routing";
 import TEST_ID from "./testids";
 
@@ -14,12 +14,35 @@ import TEST_ID from "./testids";
  * You may be wondering how it works with buttons on pages that redirect to other pages (a list component going to a details component for example). That is also the responsibility of the tests in that component.
  */
 
+const routerRender = (component, { route = "/" } = {}) => {
+  window.history.pushState({}, "Test page", route);
+  return render(component, { wrapper: BrowserRouter });
+};
+
 describe("Routing", () => {
-  it("Goes to the home page on /", () => {});
+  it("Goes to the home page on /", () => {
+    routerRender(<Routing />, { route: "/" });
+    expect(screen.getByTestId(TEST_ID.HOME_CONTAINER)).toHaveTextContent(
+      "This is the Home page"
+    );
+  });
 
-  it("Goes to the users page on /users", () => {});
+  it("Goes to the users page on /users", () => {
+    routerRender(<Routing />, { route: "/users" });
+    expect(screen.getByTestId(TEST_ID.USER_LIST_CONTAINER)).toHaveTextContent(
+      "This is the Users page"
+    );
+  });
 
-  it("Goes to the user details page on /users/:id", () => {});
+  it("Goes to the user details page on /users/:id", () => {
+    routerRender(<Routing />, { route: "/users/1" });
+    expect(
+      screen.getByTestId(TEST_ID.USER_DETAILS_CONTAINER)
+    ).toHaveTextContent("This is the User details page");
+  });
 
-  it("Goes to the home page if the url is not recognized", () => {});
+  it("Goes to the home page if the url is not recognized", () => {
+    routerRender(<Routing />, { route: "/random route doesn't match" });
+    expect(screen.getByText("This is the Home page")).toBeInTheDocument();
+  });
 });

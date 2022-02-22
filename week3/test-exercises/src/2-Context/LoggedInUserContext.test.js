@@ -53,11 +53,62 @@ function TestComponent({ userToLogin }) {
 }
 
 describe("LoggedInUserContext", () => {
-  it("Correctly sets the user as loggedIn if an initialUser is given", () => {});
+  it("Correctly sets the user as loggedIn if an initialUser is given", () => {
+    const user = { name: "John" };
+    render(
+      <LoggedInUserContextProvider initialUser={user}>
+        <TestComponent />
+      </LoggedInUserContextProvider>
+    );
 
-  it("Correctly sets the user as logged out if no initialUser is given", () => {});
+    expect(screen.getByTestId(TEST_ID.IS_LOGGED_IN)).toHaveAttribute(
+      "data-value",
+      "true"
+    );
+  });
 
-  it("logs the user in if you use the login function", () => {});
+  it("Correctly sets the user as logged out if no initialUser is given", () => {
+    render(
+      <LoggedInUserContextProvider>
+        <TestComponent />
+      </LoggedInUserContextProvider>
+    );
+    expect(screen.getByTestId(TEST_ID.IS_LOGGED_IN)).toHaveAttribute(
+      "data-value",
+      "false"
+    );
+  });
 
-  it("logs the user out if you use the logout function", () => {});
+  it("logs the user in if you use the login function", () => {
+    const user = { name: "Abdul" };
+    render(
+      <LoggedInUserContextProvider userToLogin={user}>
+        <TestComponent />
+      </LoggedInUserContextProvider>
+    );
+    fireEvent.click(screen.getByTestId(TEST_ID.LOGIN));
+
+    expect(screen.getByTestId(TEST_ID.LOGGED_IN_USER)).toBeInTheDocument();
+    expect(screen.getByTestId(TEST_ID.IS_LOGGED_IN)).toHaveAttribute(
+      "data-value",
+      "true"
+    );
+  });
+
+  it("logs the user out if you use the logout function", () => {
+    const user = { name: "John" };
+
+    render(
+      <LoggedInUserContextProvider initialUser={user}>
+        <TestComponent />
+      </LoggedInUserContextProvider>
+    );
+
+    expect(screen.getByTestId(TEST_ID.LOGOUT)).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId(TEST_ID.LOGOUT));
+    expect(screen.getByTestId(TEST_ID.IS_LOGGED_IN)).toHaveAttribute(
+      "data-value",
+      "false"
+    );
+  });
 });
