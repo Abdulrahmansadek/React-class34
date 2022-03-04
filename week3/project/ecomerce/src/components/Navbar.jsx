@@ -8,8 +8,7 @@ function Navbar() {
         Shop
       </Link>
       <div className="navbar-end">
-        <Link to={"/"}>Products | </Link>
-
+        <Link to={"/"}>Products </Link> |
         <Link to={"/favourite"}> Favourites</Link>
       </div>
     </div>

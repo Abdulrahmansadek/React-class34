@@ -6,8 +6,12 @@ import heartEmpty from "../assets/heart-regular.svg";
 
 function ProductItem({ id, title, image }) {
   const { toggleFavourite, isFavourite } = useContext(FavouriteContext);
-  let isFav = isFavourite(id);
+  const isFav = isFavourite(id);
 
+  const handleFavourite = (e) => {
+    e.preventDefault();
+    toggleFavourite(id);
+  };
   return (
     <div className="favorite-container">
       <Link to={`/product/${id}`}>
@@ -25,10 +29,7 @@ function ProductItem({ id, title, image }) {
             src={isFav ? heartSolid : heartEmpty}
             alt="heart"
             className="heart-filled"
-            onClick={(e) => {
-              e.preventDefault();
-              toggleFavourite(id);
-            }}
+            onClick={handleFavourite}
           />
         </div>
       </Link>
